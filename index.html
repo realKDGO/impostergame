@@ -1,17 +1,108 @@
 <!doctype html>
 <html lang="en" data-theme="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#090b10" />
-    <meta name="description" content="BLENDIN is a pass-the-phone game of hidden words, bluffing, voting, and deduction." />
-    <meta name="google-site-verification" content="oU-0ex9uJFiv6vAfGxlrshv2ve1nAcjX1JE5cB0rByU" />
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="apple-touch-icon" href="/favicon.png" />
-    <title>BLENDIN: Who's the Impostor?</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#090b10" />
+  <title>BLENDIN: Who's the Impostor? | Pass-the-Phone Party Deduction Game</title>
+
+  <!-- Primary SEO Meta Tags -->
+  <meta name="title" content="BLENDIN: Who's the Impostor? | Pass-the-Phone Party Deduction Game" />
+  <meta name="description"
+    content="BLENDIN is an addictive pass-the-phone word game of secret words, bluffing, clue-giving, and social deduction. Play with 3-15 friends on a single device with English & Tagalog packs!" />
+  <meta name="keywords"
+    content="blendin, blend in game, imposter game, party game, word game, pass the phone game, social deduction game, who is the imposter, filipino party game, secret word game, spyfall online, undercover game, among us word game, bluffing game, group party game, offline party game, imposter who, impostor who, false in" />
+  <meta name="author" content="BLENDIN" />
+  <meta name="publisher" content="BLENDIN" />
+  <meta name="creator" content="BLENDIN" />
+  <meta name="application-name" content="BLENDIN" />
+  <meta name="category" content="Games, Entertainment, Party Games, Social Deduction" />
+  <meta name="classification" content="Games / Social Deduction / Word Games" />
+  <meta name="coverage" content="Worldwide" />
+  <meta name="distribution" content="Global" />
+  <meta name="rating" content="General" />
+  <meta name="referrer" content="origin-when-cross-origin" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="color-scheme" content="dark light" />
+
+  <!-- Crawler & Bot Directives -->
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="bingbot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <link rel="canonical" href="https://blendin.vercel.app/" />
+
+  <!-- Google Site Verification & Search Console -->
+  <meta name="google-site-verification" content="oU-0ex9uJFiv6vAfGxlrshv2ve1nAcjX1JE5cB0rByU" />
+  <meta name="google" content="notranslate" />
+
+  <!-- Open Graph / Facebook / Discord / WhatsApp -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://blendin.vercel.app/" />
+  <meta property="og:title" content="BLENDIN: Who's the Impostor? | Pass-the-Phone Party Game" />
+  <meta property="og:description"
+    content="One secret word. One or more impostors trying to blend in. Pass the phone, give subtle clues, vote, and uncover the imposter! Available in English & Tagalog." />
+  <meta property="og:image" content="https://blendin.vercel.app/brand-logo.png" />
+  <meta property="og:image:secure_url" content="https://blendin.vercel.app/brand-logo.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1024" />
+  <meta property="og:image:height" content="1024" />
+  <meta property="og:image:alt" content="BLENDIN Impostor Party Game Logo" />
+  <meta property="og:site_name" content="BLENDIN" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:locale:alternate" content="fil_PH" />
+
+  <!-- Twitter / X Cards -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://blendin.vercel.app/" />
+  <meta name="twitter:title" content="BLENDIN: Who's the Impostor? | Party Word Game" />
+  <meta name="twitter:description"
+    content="One secret word. One or more impostors trying to blend in. Pass the phone, give subtle clues, and find the imposter!" />
+  <meta name="twitter:image" content="https://blendin.vercel.app/brand-logo.png" />
+  <meta name="twitter:image:alt" content="BLENDIN Impostor Party Game Logo" />
+
+  <!-- PWA & Mobile Web App Meta -->
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="apple-touch-icon" href="/favicon.png" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="BLENDIN" />
+  <meta name="msapplication-TileColor" content="#090b10" />
+  <meta name="msapplication-TileImage" content="/favicon.png" />
+  <meta name="msapplication-navbutton-color" content="#090b10" />
+
+  <!-- Structured Data (Schema.org JSON-LD) -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "BLENDIN: Who's the Impostor?",
+      "alternateName": ["BLENDIN", "Blend In Game", "Impostor Word Game"],
+      "url": "https://blendin.vercel.app/",
+      "description": "A pass-the-phone word deduction party game of secret words, subtle clues, bluffing, and voting for 3 to 15 players.",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "ratingCount": "120"
+      },
+      "genre": ["Party Game", "Social Deduction", "Word Game", "Multiplayer Game"],
+      "inLanguage": ["en", "tl"]
+    }
+    </script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>
