@@ -60,6 +60,100 @@ const getCategoryIcon=(name:string)=>{
  const iconClass = map[name] || "fa-shapes";
  return <i className={`fa-solid ${iconClass}`} aria-hidden="true"/>;
 };
+const getCategoryDescription=(name:string, language:string)=>{
+ const descs:Record<string,string>={
+  "Food":"Delicious dishes, meals, snacks, and treats from around the world.",
+  "Pagkain":"Masasarap na ulam, miryenda, at tradisyonal na pagkaing Pinoy.",
+  "Philippine Food":"Popular and iconic Filipino dishes, street foods, and regional delicacies.",
+  "Drinks":"Refreshing beverages, sodas, coffees, teas, and specialty drinks.",
+  "Inumin":"Mga pampalamig, tradisyonal na inumin, kape, at sari-saring inumin.",
+  "Animals":"Wild beasts, friendly pets, birds, sea creatures, and safari wildlife.",
+  "Hayop":"Mga alagang hayop, maiilap na hayop sa gubat, at mga lumilipad at lumalangoy.",
+  "Countries":"Nations and territories across all continents around the globe.",
+  "Cities":"Famous world metropolises, iconic landmarks, and bustling capitals.",
+  "World Cities":"Major international destinations and world-famous cities.",
+  "Philippine Cities":"Prominent cities and urban centers across Luzon, Visayas, and Mindanao.",
+  "Philippine Provinces":"Provinces and island regions known across the Philippines.",
+  "Places":"Everyday locations, travel destinations, public spots, and venues.",
+  "Lugar":"Mga pamilyar na pook, pasyalan, gusali, at pampublikong lugar.",
+  "Mga Lugar sa Pilipinas":"Mga sikat na pasyalan, tanawin, at isla sa buong Pilipinas.",
+  "Sports":"Popular team sports, athletics, competitive games, and matches.",
+  "Palakasan":"Mga larong pampalakasan, kompetisyon, at pisikal na aktibidad.",
+  "Movies":"Film terms, cinematic tropes, blockbuster cinema, and Hollywood magic.",
+  "Pelikula":"Mga termino sa pelikula, eksena, at industriya ng sine.",
+  "TV Shows":"Television series, streaming favorites, sitcoms, and broadcast formats.",
+  "Video Games":"Gaming terms, mechanics, console favorites, and virtual adventures.",
+  "Larong Pinoy":"Mga tradisyonal na larong kalye at paboritong libangan ng kabataan.",
+  "Board Games":"Tabletop classics, strategy board games, and family party pastimes.",
+  "Roblox Worlds":"Popular virtual worlds, obbies, and experiences on Roblox.",
+  "Block Worlds":"Sandbox crafting, voxel survival, and block-building dimensions.",
+  "Technology":"Digital devices, computing hardware, modern gadgets, and networks.",
+  "Technology Brands":"World-leading tech innovators, hardware manufacturers, and software giants.",
+  "Programming":"Coding concepts, development workflows, software architecture, and syntax.",
+  "Jobs":"Professions, trades, workplace careers, and skilled occupations.",
+  "Trabaho":"Iba't ibang hanapbuhay, propesyon, at serbisyong panlipunan.",
+  "School":"Classroom life, school subjects, study gear, and academic milestones.",
+  "Paaralan":"Buhay-estudyante, silid-aralan, gamit sa klase, at pagsusulit.",
+  "Campus Life":"College student culture, university events, dorms, and campus routines.",
+  "Transportation":"Vehicles, public transit systems, flights, and road travel.",
+  "Sasakyan":"Mga pampublikong sasakyan, pampasaherong biyahe, at sasakyang panlupa't dagat.",
+  "Clothing":"Apparel, fashion accessories, everyday wear, and wardrobe essentials.",
+  "Household Objects":"Everyday tools, furniture, and appliances found inside the home.",
+  "Bagay":"Mga karaniwang gamit, kagamitan sa bahay, at personal na ari-arian.",
+  "Bahay":"Mga bahagi ng tahanan, silid, at kasangkapan sa pamamahay.",
+  "Kitchen":"Cooking utensils, pantry staples, appliances, and kitchen items.",
+  "Bathroom":"Bath essentials, hygiene products, toiletries, and restroom fixtures.",
+  "Office":"Workplace furniture, desktop stationery, and office supplies.",
+  "Nature":"Natural landscapes, weather wonders, wilderness, and Earth's terrain.",
+  "Kalikasan":"Mga anyong lupa, anyong tubig, panahon, at kagandahan ng kapaligiran.",
+  "Camping":"Outdoor survival gear, campfire basics, tents, and wild expeditions.",
+  "Garden":"Plants, flowers, gardening tools, soil, and backyard greenery.",
+  "Farm":"Agriculture, livestock, barn equipment, and countryside harvest.",
+  "Ocean Life":"Marine creatures, coral reefs, deep-sea wonders, and coastal life.",
+  "Weather":"Atmospheric phenomena, seasons, storms, and climate conditions.",
+  "Music":"Instruments, genres, live concerts, melody, and rhythm.",
+  "Internet Culture":"Viral memes, social trends, digital slang, and online behavior.",
+  "Social Media":"Feeds, followers, viral reels, notifications, and social networks.",
+  "Brands & Social Media":"Household brand names, tech platforms, and digital networks.",
+  "Fantasy":"Dragons, spells, mythical creatures, knights, and magical lore.",
+  "Anime":"Popular Japanese animation tropes, genres, and anime world concepts.",
+  "Superpowers":"Extraordinary superhero abilities, psychic powers, and heroic gifts.",
+  "Science & Space":"Cosmic wonders, astronomy, physics, experiments, and the universe.",
+  "Science":"Scientific discoveries, lab experiments, elements, and natural laws.",
+  "Space":"Planets, star clusters, galaxies, astronauts, and deep space exploration.",
+  "Hobbies":"Creative crafts, leisure activities, outdoor pursuits, and relaxing pastimes.",
+  "Art":"Fine art tools, painting techniques, gallery aesthetics, and drawing mediums.",
+  "Photography":"Camera gear, lighting, shutter techniques, and visual composition.",
+  "Books":"Literary terms, reading culture, book genres, and storytelling.",
+  "Extreme Ideas":"Mind-bending paradoxes, philosophy, consciousness, and deep concepts.",
+  "Mystery":"Whodunit clues, unsolved cases, secret agents, and cryptic riddles.",
+  "History":"Ancient civilizations, historical eras, empires, and monumental events.",
+  "Crime & Law":"Courtroom trials, legal terms, detectives, and criminal investigations.",
+  "Money":"Currency, banking, finance, market economics, and wealth terms.",
+  "Shopping":"Retail therapy, department stores, bargaining, and checkout carts.",
+  "Construction":"Heavy machinery, building tools, materials, and architectural works.",
+  "Celebrity":"World-famous musicians, Hollywood icons, and pop-culture megastars.",
+  "Artista":"Mga sikat na aktor, aktres, mang-aawit, at personalidad sa Pilipinas.",
+  "Artista at Aliwan":"Showbiz, teleserye, konsiyerto, at industriya ng aliwan sa Pilipinas.",
+  "Filipino Culture":"Pinoy values, hospitality, customs, and proud national identity.",
+  "Kulturang Pilipino":"Mga kaugalian, pagpapahalaga, at natatanging tradisyon ng mga Pilipino.",
+  "Filipino Slang":"Lingo, trending colloquialisms, and conversational Pinoy expressions.",
+  "Pinoy Slang":"Mga patok na salita, millennial/Gen-Z slang, at usapang kalye.",
+  "Filipino Festivals":"Colorful cultural fiestas, street dancing, and religious celebrations.",
+  "Pista at Tradisyon":"Mga pista, kapistahan, at nakagawiang pagdiriwang sa Pilipinas.",
+  "Holidays":"Global festivities, seasonal holiday traditions, and celebrations.",
+  "Party":"Birthday bashes, celebrations, music, decorations, and party games.",
+  "Childhood":"Nostalgic playground games, toy memories, and youthful experiences.",
+  "Feelings":"Human emotions, mood states, empathy, and heartfelt reactions.",
+  "Actions":"Physical movements, dynamic activities, verbs, and athletic motions.",
+  "Sounds":"Noises, acoustic echoes, music effects, and auditory sensations.",
+  "Shapes & Colors":"Geometric shapes, vibrant hues, shades, and visual palettes.",
+  "Health":"Wellness, medicine, fitness, healthcare, and bodily vitality.",
+  "Travel":"Vacations, flight itineraries, luggage, and globetrotting adventures.",
+  "Pang-araw-araw na Buhay":"Mga gawaing-bahay, araw-araw na rutina, at buhay sa komunidad."
+ };
+ return descs[name] || (language === "Tagalog" ? `Koleksyon ng mga salita para sa ${name}.` : `Word pack featuring ${name} terms and associations.`);
+};
 const shuffled=<T,>(x:T[])=>{const a=[...x];for(let i=a.length-1;i;i--){let j=crypto.getRandomValues(new Uint32Array(1))[0]%(i+1);[a[i],a[j]]=[a[j],a[i]]}return a};
 const explainHint=(word:string,hint:string,language:string,category:string)=>{
  const baseHint=hint.replace(/^Paired with /,"").replace(/^Kaugnay ng /,"").replace(/ connection$/,"").replace(/^Palatandaan: /,"");
@@ -122,7 +216,7 @@ export default function App(){
  const revealRound=()=>{if(publicReveal)return;setPublicReveal(true);if(voteMode==="off"){setRoundResolved(true);setRounds(x=>x+1);setPlayers(ps=>ps.map(p=>({...p,rounds:p.rounds+1})))}else if(!caught)resolveRound("imposters");else if(!escape)resolveRound("players")};
  if(screen==="home")return <main className="shell home"><header><img src="/brand-logo.png" alt="BLENDIN Logo" className="brand-logo-mark"/><button onClick={()=>go("settings")}>{ico("gear")}</button></header><section className="hero"><p>WHO&apos;S THE IMPOSTOR?</p><h1>BLEND<br/><span>IN</span></h1><small>One secret word. Someone is trying to blend in.</small></section><button className="primary big" onClick={()=>go("setup")}>{ico("play")}<span><b>Play</b><small>Set up your perfect round</small></span></button><button className="secondary big" onClick={start}>{ico("shuffle")}<span><b>Quick Play</b><small>Jump in with saved players</small></span></button><nav>{[["topics","Categories","Browse topics"],["stats","Statistics",rounds+" rounds"],["settings","Settings","Rules & display"],["help","How to Play","Learn in 60 sec"]].map(x=><button key={x[0]} onClick={()=>go(x[0] as Screen)}><b>{x[1]}</b><small>{x[2]}</small></button>)}</nav></main>;
  if(screen==="setup")return <main className="shell">{top}<Head over="New game" title="Build your crew" sub="Pass one phone. Trust no clue."/><Card><div className="row"><b>Players <em>{players.length}/15</em></b><button className="text" onClick={()=>setPlayers(shuffled(players))}>{ico("shuffle")} Shuffle</button></div><div className="players">{players.map((p,i)=><label key={p.id}><small>{String(i+1).padStart(2,"0")}</small><input value={p.name} onChange={e=>setPlayers(players.map(x=>x.id===p.id?{...x,name:e.target.value}:x))}/><button disabled={players.length<=3} onClick={()=>setPlayers(players.filter(x=>x.id!==p.id))}>×</button></label>)}</div><button className="add" disabled={players.length>=15} onClick={()=>setPlayers([...players,{id:crypto.randomUUID(),name:"Player "+(players.length+1),points:0,wins:0,correct:0,rounds:0}])}>+ Add player</button></Card><Card><Label>Language</Label><div className="segments three">{(["English","Tagalog","Both"] as const).map(x=><button key={x} className={language===x?"on":""} onClick={()=>{setLanguage(x);setSelected([])}}>{x}</button>)}</div><div className="row topic-row"><span><b>Topic packs</b><small>{selected.length||"All"} selected</small></span><button className="pill" onClick={()=>go("topics")}>Choose</button></div><Label>Difficulty</Label><div className="segments">{["Easy","Normal","Hard","Extreme"].map(x=><button key={x} className={difficulty===x?"on":""} onClick={()=>setDifficulty(x)}>{x}</button>)}</div><Label>Game mode</Label><div className="modes">{["Classic","Double Imposter","Chaos","Hidden Topic","Known Topic","No Mercy","Quick Round","Troll Mode"].map(x=><button key={x} className={mode===x?"on":""} onClick={()=>setMode(x)}><b>{x}</b><small>{x==="Classic"?"One hidden player":x==="Double Imposter"?"Two hidden players":x==="Chaos"?"Unknown enemy count":x==="Hidden Topic"?"Category stays secret":x==="Known Topic"?"Category is public":x==="No Mercy"?"Hard words only":x==="Quick Round"?"Short timers":"Reverse clue order"}</small></button>)}</div>{mode==="Classic"&&<div className="row line"><span><b>Imposters</b><small>Keep two citizens</small></span><div className="step"><button onClick={()=>setImposterN(Math.max(1,imposterN-1))}>−</button><b>{imposterN}</b><button onClick={()=>setImposterN(Math.min(players.length-2,imposterN+1))}>+</button></div></div>}</Card><Sticky onClick={start} disabled={players.length<3||players.some(p=>!p.name.trim())}>Start game</Sticky></main>;
- if(screen==="topics"){let list=gameCategories.filter(c=>c.name.toLowerCase().includes(query.toLowerCase()));return <main className="shell">{top}<Head over="Word library" title="Choose topics" sub="Mix English and Tagalog packs for unpredictable rounds."/><div className="language-badge">{language} collection</div><div className="search"><input aria-label="Search categories" placeholder="Search categories" value={query} onChange={e=>setQuery(e.target.value)}/></div><div className="tools"><button onClick={()=>setSelected(gameCategories.map(c=>c.name))}>Select all</button><button onClick={()=>setSelected([])}>Clear all</button><button onClick={()=>setSelected(shuffled(gameCategories).slice(0,3).map(c=>c.name))}>Random 3</button></div><div className="cats">{list.map((c,i)=><button key={c.language+c.name} className={selected.includes(c.name)?"on":""} onClick={()=>setSelected(v=>v.includes(c.name)?v.filter(x=>x!==c.name):[...v,c.name])}><i className={"cat-icon a"+i%6}>{getCategoryIcon(c.name)}</i><span><b>{c.name}</b><small>{c.language}</small></span><em onClick={e=>{e.stopPropagation();setFavorites(f=>f.includes(c.name)?f.filter(x=>x!==c.name):[...f,c.name])}}>{favorites.includes(c.name)?"★":"☆"}</em></button>)}</div><Sticky onClick={()=>go("setup")}>Use {selected.length||"all"} categories</Sticky></main>}
+ if(screen==="topics"){let list=gameCategories.filter(c=>c.name.toLowerCase().includes(query.toLowerCase()));return <main className="shell">{top}<Head over="Word library" title="Choose topics" sub="Mix English and Tagalog packs for unpredictable rounds."/><div className="language-badge">{language} collection</div><div className="search"><input aria-label="Search categories" placeholder="Search categories" value={query} onChange={e=>setQuery(e.target.value)}/></div><div className="tools"><button onClick={()=>setSelected(gameCategories.map(c=>c.name))}>Select all</button><button onClick={()=>setSelected([])}>Clear all</button><button onClick={()=>setSelected(shuffled(gameCategories).slice(0,3).map(c=>c.name))}>Random 3</button></div><div className="cats">{list.map((c,i)=>{const desc=getCategoryDescription(c.name,c.language);return <button key={c.language+c.name} className={"cat-btn "+(selected.includes(c.name)?"on":"")} title={`${c.name}: ${desc}`} aria-label={`${c.name} (${c.language}): ${desc}`} onClick={()=>setSelected(v=>v.includes(c.name)?v.filter(x=>x!==c.name):[...v,c.name])}><i className={"cat-icon a"+i%6}>{getCategoryIcon(c.name)}</i><span><b>{c.name}</b><small>{c.language}</small></span><em onClick={e=>{e.stopPropagation();setFavorites(f=>f.includes(c.name)?f.filter(x=>x!==c.name):[...f,c.name])}}>{favorites.includes(c.name)?"★":"☆"}</em><span className="cat-tooltip" role="tooltip">{desc}</span></button>})}</div><Sticky onClick={()=>go("setup")}>Use {selected.length||"all"} categories</Sticky></main>}
  if(screen==="reveal"){let p=order[ri],imp=imps.includes(p.id);const hide=()=>setShown(false),reveal=()=>{setShown(true);setHasRevealed(true)},next=()=>{setShown(false);setHasRevealed(false);if(ri<order.length-1)setRi(ri+1);else{const chosen=players[crypto.getRandomValues(new Uint32Array(1))[0]%players.length];setFirstPlayerId(chosen.id);go("firstPlayer")}};return <main className={"shell reveal-card-screen "+(shown?(imp?"danger":"safe"):"")}><div className="phase"><span>PRIVATE ROLE</span><span>{ri+1} / {order.length}</span></div><div className="bar"><i style={{width:(ri/order.length*100)+"%"}}/></div><header className="reveal-player"><p>Pass the phone to</p><h1>{p.name}</h1><small>Only {p.name} should view the card</small></header><div className="flip-stage"><button className={"flip-card "+(shown?"is-flipped":"")} aria-label="Press and hold to reveal your private role" aria-pressed={shown} onPointerDown={e=>{e.currentTarget.setPointerCapture(e.pointerId);reveal()}} onPointerUp={hide} onPointerCancel={hide} onPointerLeave={hide} onContextMenu={e=>e.preventDefault()}><span className="flip-inner"><span className="card-face card-front"><i>B</i><em>PLAYER {ri+1}</em><h2>{p.name}</h2><div className="hold-ring">{ico("eye")}</div><b>Press and hold</b><small>Release to hide</small></span><span className={"card-face card-back "+(imp?"imposter-face":"word-face")}><em>{imp?"PRIVATE ROLE":"YOUR WORD"}</em>{imp?<><i className="card-mark">?</i><h2>YOU ARE THE<br/><b>IMPOSTOR</b></h2>{imposterHint&&<aside>Hint<b>{imposterHints[p.id]}</b></aside>}</>:<h2 className="card-word">{word}</h2>}<small>Keep holding to view</small></span></span></button></div><p className="reveal-instruction">{shown?"Release the card before passing the phone.":"Hold the card to check your private role."}</p>{hasRevealed&&<button className="primary next-player" disabled={shown} onClick={next}>{ri<order.length-1?"Next player":"Choose first player"} <span>→</span></button>}</main>}
  if(screen==="firstPlayer"){const first=players.find(p=>p.id===firstPlayerId)||players[0],continueRound=()=>{if(voteMode==="off")go("imposterReveal");else{setVotes({});setVi(0);go("voting")}};return <main className="shell first-player-screen"><div className="phase"><span>FIRST PLAYER</span><span>RANDOM PICK</span></div><section><i>{first.name.slice(0,1).toUpperCase()}</i><p>FIRST TO SPEAK</p><h1>{first.name}</h1><small>{first.name} gives the first clue. Only the first player is randomized, so the group can choose who follows.</small><button className="primary wide" onClick={continueRound}>{voteMode==="off"?"Continue to reveal":"Continue to voting"} →</button></section></main>}
  if(screen==="imposterReveal")return (
