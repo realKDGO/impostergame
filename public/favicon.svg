@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0c16"/>
+      <stop offset="100%" stop-color="#05060a"/>
+    </linearGradient>
+
+    <!-- Outer Neon Glow Border -->
+    <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="12" flood-color="#a855f7" flood-opacity="0.9"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="24" flood-color="#7c3aed" flood-opacity="0.5"/>
+    </filter>
+
+    <!-- Question Mark Gradient & Glow -->
+    <linearGradient id="qGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#60a5fa"/>
+      <stop offset="50%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+    <filter id="purpleGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#8b5cf6" flood-opacity="0.9"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="16" flood-color="#a855f7" flood-opacity="0.6"/>
+    </filter>
+
+    <!-- Glowing Eye -->
+    <filter id="eyeGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#e9d5ff" flood-opacity="1"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="12" flood-color="#c084fc" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <!-- Base Icon Frame with Neon Rim -->
+  <rect x="24" y="24" width="464" height="464" rx="110" fill="url(#bgGrad)"/>
+  <rect x="24" y="24" width="464" height="464" rx="110" fill="none" stroke="#a855f7" stroke-width="8" filter="url(#neonGlow)"/>
+  <rect x="24" y="24" width="464" height="464" rx="110" fill="none" stroke="#c084fc" stroke-width="4"/>
+
+  <!-- Split Face Container -->
+  <g transform="translate(0, -10)">
+    <!-- Right Half (Dark Mischievous Side) -->
+    <path d="M 256,70 A 150,150 0 0,1 406,220 A 150,150 0 0,1 256,370 Z" fill="#121324"/>
+    <path d="M 256,70 A 150,150 0 0,1 406,220 A 150,150 0 0,1 256,370 Z" fill="none" stroke="#8b5cf6" stroke-width="3" opacity="0.4"/>
+
+    <!-- Dark Side Mischievous Slanted Eye -->
+    <path d="M 310,230 Q 350,195 380,200 Q 345,245 310,230 Z" fill="#ffffff" filter="url(#eyeGlow)"/>
+
+    <!-- Dark Side Smile / Smirk -->
+    <path d="M 285,305 Q 320,318 350,290" fill="none" stroke="#8b5cf6" stroke-width="12" stroke-linecap="round"/>
+
+    <!-- Left Half (Bright Friendly Emoji Side) -->
+    <path d="M 256,70 A 150,150 0 0,0 106,220 A 150,150 0 0,0 256,370 Z" fill="#f8fafc"/>
+
+    <!-- Left Side Friendly Eyebrow & Eye -->
+    <path d="M 160,175 Q 185,155 210,165" fill="none" stroke="#1e293b" stroke-width="10" stroke-linecap="round"/>
+    <ellipse cx="190" cy="215" rx="18" ry="24" fill="#1e293b"/>
+
+    <!-- Left Side Friendly Smile -->
+    <path d="M 190,295 Q 220,325 256,325" fill="none" stroke="#1e293b" stroke-width="12" stroke-linecap="round"/>
+
+    <!-- Central Glowing Impostor Question Mark -->
+    <g filter="url(#purpleGlow)">
+      <path d="M 225,180 C 225,140 250,120 270,120 C 295,120 310,135 310,155 C 310,178 285,195 272,215 C 263,228 260,240 260,255 L 250,255 C 250,235 255,220 266,205 C 276,190 292,176 292,158 C 292,146 283,137 270,137 C 256,137 243,148 241,175 Z" fill="url(#qGrad)"/>
+      <circle cx="256" cy="285" r="14" fill="url(#qGrad)"/>
+    </g>
+  </g>
+
+  <!-- BLENDIN Logo Wordmark -->
+  <g id="brand-text" transform="translate(256, 442)">
+    <text x="0" y="0" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="44" letter-spacing="4" fill="#ffffff">
+      BLEND<tspan fill="#a855f7">IN</tspan>
+    </text>
+  </g>
+</svg>
