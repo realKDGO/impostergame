@@ -22,15 +22,16 @@ const banks=[
 ["Déjà Vu","Paradox","Nostalgia","Gravity Well","Butterfly Effect","Identity","Free Will","Parallel Universe","Collective Memory","Optical Illusion","Social Contract","Infinite Loop","Uncanny Valley","Moral Dilemma","Placebo Effect","Time Perception","Chaos Theory","Confirmation Bias","Lost Civilization","Simulation"]
 ];
 const legacyCategories=starters.map((name,i)=>({name,words:banks[i%banks.length].map((w,j)=>i>14&&j%4===0?`${w} · ${name}`:w)}));
-const ico=(n:string)=><svg viewBox="0 0 24 24" aria-hidden="true">{
- n==="play"?<path d="m8 5 11 7-11 7Z"/>:
- n==="back"?<path d="m15 18-6-6 6-6"/>:
- n==="eye"?<><path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.5"/></>:
- n==="gear"?<path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm7.4-4.2-.9-.3a6.8 6.8 0 0 0-.6-1.5l.5-.8a1 1 0 0 0-.2-1.3l-1.4-1.4a1 1 0 0 0-1.3-.2l-.8.5a6.8 6.8 0 0 0-1.5-.6l-.3-.9a1 1 0 0 0-1-.7h-2a1 1 0 0 0-1 .7l-.3.9a6.8 6.8 0 0 0-1.5.6l-.8-.5a1 1 0 0 0-1.3.2L5.3 7a1 1 0 0 0-.2 1.3l.5.8a6.8 6.8 0 0 0-.6 1.5l-.9.3a1 1 0 0 0-.7 1v2a1 1 0 0 0 .7 1l.9.3a6.8 6.8 0 0 0 .6 1.5l-.5.8a1 1 0 0 0 .2 1.3l1.4 1.4a1 1 0 0 0 1.3.2l.8-.5a6.8 6.8 0 0 0 1.5.6l.3.9a1 1 0 0 0 1 .7h2a1 1 0 0 0 1-.7l.3-.9a6.8 6.8 0 0 0 1.5-.6l.8.5a1 1 0 0 0 1.3-.2l1.4-1.4a1 1 0 0 0 .2-1.3l-.5-.8a6.8 6.8 0 0 0 .6-1.5l.9-.3a1 1 0 0 0 .7-1v-2a1 1 0 0 0-.7-1Z"/>:
- n==="sun"?<><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41m14.14-14.14-1.41 1.41"/></>:
- n==="moon"?<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>:
- <path d="M4 7h4c4 0 4 10 8 10h4m-4-3 4 3-4 3M4 17h4c1 0 2-.5 3-2"/>
-}</svg>;
+const ico=(n:string)=>{
+ if(n==="gear") return <i className="fa-solid fa-gear" aria-hidden="true"/>;
+ if(n==="sun") return <i className="fa-solid fa-sun" aria-hidden="true"/>;
+ if(n==="moon") return <i className="fa-solid fa-moon" aria-hidden="true"/>;
+ if(n==="play") return <i className="fa-solid fa-play" aria-hidden="true"/>;
+ if(n==="back") return <i className="fa-solid fa-chevron-left" aria-hidden="true"/>;
+ if(n==="eye") return <i className="fa-solid fa-eye" aria-hidden="true"/>;
+ if(n==="shuffle") return <i className="fa-solid fa-shuffle" aria-hidden="true"/>;
+ return <i className={`fa-solid fa-${n}`} aria-hidden="true"/>;
+};
 const shuffled=<T,>(x:T[])=>{const a=[...x];for(let i=a.length-1;i;i--){let j=crypto.getRandomValues(new Uint32Array(1))[0]%(i+1);[a[i],a[j]]=[a[j],a[i]]}return a};
 const explainHint=(word:string,hint:string,language:string,category:string)=>{
  const baseHint=hint.replace(/^Paired with /,"").replace(/^Kaugnay ng /,"").replace(/ connection$/,"").replace(/^Palatandaan: /,"");
