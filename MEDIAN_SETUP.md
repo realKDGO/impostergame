@@ -1,5 +1,17 @@
 # Median configuration for BLENDIN
 
+## Offline support
+
+The production build includes a service worker that precaches the game interface, local word database, hint explanations, styles, and images. Players must open the app online once and allow the first load to finish. Later launches can work without a connection.
+
+- Android: service workers work in Median WebView without extra setup.
+- iOS 14+: add the exact production domain to App-Bound Domains and enable service workers in the iOS project.
+- Disable Median's native offline error page if it covers the cached app interface.
+- After every deployment, open the app online once so the updated cache can finish installing.
+- A first-ever launch still requires internet because the APK loads the hosted site before its cache exists.
+
+Test a production APK by opening it online, closing it, enabling airplane mode, and reopening it. Home, setup, categories, card reveal, voting, results, scores, statistics, and settings should remain available.
+
 The project now creates browser-history entries for every game screen. Android's back button and Median's swipe-back gesture can therefore return to the previous game screen without reloading the application.
 
 Use these Median App Studio settings before rebuilding the APK:

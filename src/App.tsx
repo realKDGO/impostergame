@@ -1,4 +1,5 @@
 import {useEffect,useMemo,useRef,useState} from "react";
+import {BookOpen,Briefcase,Camera,Car,Castle,ChevronLeft,CloudSun,Code2,Coffee,Eye,Film,Gamepad2,Globe2,GraduationCap,House,Leaf,MapPin,Music2,PawPrint,Play,Rocket,Settings,Shapes,Shirt,Shuffle,Smartphone,Star,Sun,TreePine,Trophy,Users,WandSparkles,type LucideIcon} from "lucide-react";
 import {categories as dataCategories,forLanguage} from "./word-data";
 import {getSmartHintExplanation} from "./hint-explanations";
 type Screen="home"|"setup"|"topics"|"reveal"|"firstPlayer"|"imposterReveal"|"clue"|"discussion"|"voting"|"guess"|"result"|"scores"|"settings"|"stats"|"help";
@@ -25,42 +26,24 @@ const banks=[
 ];
 const legacyCategories=starters.map((name,i)=>({name,words:banks[i%banks.length].map((w,j)=>i>14&&j%4===0?`${w} · ${name}`:w)}));
 const ico=(n:string)=>{
- if(n==="gear") return <i className="fa-solid fa-gear" aria-hidden="true"/>;
- if(n==="sun") return <i className="fa-solid fa-sun" aria-hidden="true"/>;
- if(n==="moon") return <i className="fa-solid fa-moon" aria-hidden="true"/>;
- if(n==="play") return <i className="fa-solid fa-play" aria-hidden="true"/>;
- if(n==="back") return <i className="fa-solid fa-chevron-left" aria-hidden="true"/>;
- if(n==="eye") return <i className="fa-solid fa-eye" aria-hidden="true"/>;
- if(n==="shuffle") return <i className="fa-solid fa-shuffle" aria-hidden="true"/>;
- return <i className={`fa-solid fa-${n}`} aria-hidden="true"/>;
+ const icons:Record<string,LucideIcon>={gear:Settings,sun:Sun,moon:Sun,play:Play,back:ChevronLeft,eye:Eye,shuffle:Shuffle};
+ const Icon=icons[n]||Shapes;
+ return <Icon aria-hidden="true"/>;
 };
 const getCategoryIcon=(name:string)=>{
- const map:Record<string,string>={
-  "Food":"fa-utensils","Pagkain":"fa-utensils","Philippine Food":"fa-bowl-rice",
-  "Drinks":"fa-mug-hot","Inumin":"fa-glass-water",
-  "Animals":"fa-paw","Hayop":"fa-paw",
-  "Countries":"fa-earth-americas","Cities":"fa-city","World Cities":"fa-city","Philippine Cities":"fa-city","Philippine Provinces":"fa-map-location-dot","Lugar":"fa-location-dot","Mga Lugar sa Pilipinas":"fa-mountain-sun","Places":"fa-map-pin",
-  "Sports":"fa-volleyball","Palakasan":"fa-futbol",
-  "Movies":"fa-film","TV Shows":"fa-tv","Pelikula":"fa-clapperboard",
-  "Video Games":"fa-gamepad","Larong Pinoy":"fa-puzzle-piece","Board Games":"fa-chess-board","Roblox Worlds":"fa-cubes","Block Worlds":"fa-cubes-stacked",
-  "Technology":"fa-laptop-code","Technology Brands":"fa-microchip","Programming":"fa-code",
-  "Jobs":"fa-briefcase","Trabaho":"fa-user-tie",
-  "School":"fa-graduation-cap","Paaralan":"fa-school","Campus Life":"fa-book-open-reader",
-  "Transportation":"fa-car-side","Sasakyan":"fa-bus-simple",
-  "Clothing":"fa-shirt",
-  "Household Objects":"fa-couch","Bagay":"fa-box-open","Bahay":"fa-house-chimney","Kitchen":"fa-kitchen-set","Bathroom":"fa-bath","Office":"fa-building",
-  "Nature":"fa-tree","Kalikasan":"fa-leaf","Camping":"fa-campground","Garden":"fa-seedling","Farm":"fa-wheat-awn","Ocean Life":"fa-fish","Weather":"fa-cloud-sun",
-  "Music":"fa-music",
-  "Internet Culture":"fa-hashtag","Social Media":"fa-share-nodes","Brands & Social Media":"fa-icons",
-  "Fantasy":"fa-wand-magic-sparkles","Anime":"fa-masks-theater","Superpowers":"fa-bolt",
-  "Science & Space":"fa-rocket","Science":"fa-flask","Space":"fa-user-astronaut",
-  "Hobbies":"fa-palette","Art":"fa-paintbrush","Photography":"fa-camera","Books":"fa-book",
-  "Extreme Ideas":"fa-brain","Mystery":"fa-user-secret","History":"fa-landmark","Crime & Law":"fa-scale-balanced","Money":"fa-money-bill-wave","Shopping":"fa-bag-shopping","Construction":"fa-helmet-safety",
-  "Celebrity":"fa-star","Artista":"fa-star","Artista at Aliwan":"fa-microphone-lines","Filipino Culture":"fa-heart","Kulturang Pilipino":"fa-hands-holding-child","Filipino Slang":"fa-comments","Pinoy Slang":"fa-comment-dots","Pista at Tradisyon":"fa-champagne-glasses","Filipino Festivals":"fa-masks-theater","Holidays":"fa-gifts","Party":"fa-cake-candles",
-  "Childhood":"fa-child","Feelings":"fa-face-smile","Actions":"fa-person-running","Sounds":"fa-volume-high","Shapes & Colors":"fa-shapes","Health":"fa-heart-pulse","Travel":"fa-plane-departure","Pang-araw-araw na Buhay":"fa-sun"
- };
- const iconClass = map[name] || "fa-shapes";
- return <i className={`fa-solid ${iconClass}`} aria-hidden="true"/>;
+ const groups:Array<[LucideIcon,string[]]>=[
+  [Coffee,["Food","Pagkain","Philippine Food","Drinks","Inumin","Kitchen"]],[PawPrint,["Animals","Hayop","Ocean Life"]],
+  [Globe2,["Countries","Cities","World Cities","Philippine Cities","Philippine Provinces","Lugar","Mga Lugar sa Pilipinas","Places","Travel"]],[Trophy,["Sports","Palakasan","Board Games"]],
+  [Film,["Movies","TV Shows","Pelikula","Anime"]],[Gamepad2,["Video Games","Larong Pinoy","Roblox Worlds","Block Worlds"]],
+  [Smartphone,["Technology","Technology Brands","Social Media","Internet Culture","Brands & Social Media"]],[Code2,["Programming"]],[Briefcase,["Jobs","Trabaho","Office"]],
+  [GraduationCap,["School","Paaralan","Campus Life"]],[Car,["Transportation","Sasakyan"]],[Shirt,["Clothing"]],[House,["Household Objects","Bagay","Bahay","Bathroom"]],
+  [TreePine,["Nature","Camping","Garden","Farm"]],[Leaf,["Kalikasan"]],[CloudSun,["Weather"]],[Music2,["Music","Sounds"]],[WandSparkles,["Fantasy","Superpowers"]],
+  [Rocket,["Science & Space","Science","Space"]],[Camera,["Photography","Art","Hobbies"]],[BookOpen,["Books","History"]],
+  [Star,["Celebrity","Artista","Artista at Aliwan","Filipino Culture","Kulturang Pilipino","Filipino Slang","Pinoy Slang","Pista at Tradisyon","Filipino Festivals","Holidays","Party"]],
+  [Users,["Childhood","Feelings","Actions","Pang-araw-araw na Buhay"]],[Castle,["Mystery","Extreme Ideas","Crime & Law"]],[MapPin,["Money","Shopping","Construction"]]
+ ];
+ const Icon=groups.find(([,names])=>names.includes(name))?.[0]||Shapes;
+ return <Icon aria-hidden="true"/>;
 };
 const getCategoryDescription=(name:string, language:string)=>{
  const descs:Record<string,string>={
