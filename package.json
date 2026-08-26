@@ -7,7 +7,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate:hints": "node scripts/refine_all_hints.cjs",
+    "verify:hints": "node scripts/verify.cjs"
   },
   "dependencies": {
     "@vercel/analytics": "^1.5.0",
