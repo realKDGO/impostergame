@@ -1,0 +1,87 @@
+.players label {
+  grid-template-columns: 30px 25px 1fr 32px;
+}
+
+.players .drag-handle {
+  width: 30px;
+  height: 44px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  cursor: grab;
+  touch-action: none;
+}
+
+.players .drag-handle:active {
+  cursor: grabbing;
+  color: var(--violet);
+}
+
+.players .drag-handle svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+}
+
+.reveal-phase {
+  position: relative;
+  padding-right: 38px;
+}
+
+.reroll-trigger {
+  position: absolute;
+  right: 0;
+  top: -10px;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: var(--card);
+  color: var(--muted);
+  display: grid;
+  place-items: center;
+}
+
+.reroll-trigger:disabled,
+.change-player:disabled {
+  opacity: .25;
+}
+
+.reroll-trigger svg {
+  width: 15px;
+  height: 15px;
+  stroke: currentColor;
+}
+
+.reveal-controls {
+  width: min(100%, 400px);
+  margin: auto auto 0;
+}
+
+.reveal-controls .next-player,
+.change-player {
+  width: 100%;
+  margin: 0;
+}
+
+.change-player {
+  min-height: 49px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.reroll-modal > svg {
+  width: 42px;
+  height: 42px;
+  stroke: var(--red);
+  margin-bottom: 8px;
+}
+
+.reroll-modal .secondary {
+  margin-top: 9px;
+}
+
+.reroll-modal .hint-explanation {
+  text-align: center;
+}

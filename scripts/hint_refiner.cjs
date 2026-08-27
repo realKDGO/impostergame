@@ -111,10 +111,9 @@ function relationship(category, original, language, word) {
     return "career";
   }
   if (/(food|pagkain|kitchen)/.test(c)) {
-    if (/(salt|sugar|rice|flour|cheese|milk|cocoa|patty|cream|crust|tortilla|avocado|chickpea|pasta|noodle|bread|mani|toyo|suka|luya|sili|bawang|sarsa|dahon|karne)/.test(o)) return "ingredient";
+    if (/(salt|sugar|rice|flour|cheese|milk|cocoa|patty|cream|crust|mani|toyo|suka|luya|sili|bawang|sarsa|dahon|karne)/.test(o)) return "ingredient";
     if (/(fried|baked|roast|grill|boil|steam|churn|proof|stir|inihaw|prito|nilaga|luto)/.test(o)) return "preparation";
     if (/(delivery|takeout|drive-thru|served|plate|bowl|cup|wrap)/.test(o)) return "service";
-    if (/(round|grid|pocket|flaky|crispy|twist|curved|layer|shape|color|kulay|hugis|malutong)/.test(o)) return "appearance";
     return "variety";
   }
   if (/(drink|inumin)/.test(c)) {
@@ -123,9 +122,7 @@ function relationship(category, original, language, word) {
     return "drink";
   }
   if (/(animal|hayop|ocean life)/.test(c)) return /(feet|tail|beak|snout|jaw|claw|feather|fur|coat|pouch|shell|mane|trunk|fin|wing|mata|buntot|balat|pakpak)/.test(o) ? "anatomy" : "behavior";
-  if (/^(places|lugar)$/.test(c)) return "venueFeature";
-  if (/(countries|cities|province|travel|mga lugar sa pilipinas)/.test(c)) {
-    if (/(tuk-tuk|jeepney|cab|taxi|ferry|train|bus|bicycle|tram|gondola|cable car)/.test(o)) return "localTransport";
+  if (/(countries|cities|places|lugar|province|travel)/.test(c)) {
     if (/(tower|gate|bridge|palace|temple|church|monument|ruin|museum|mountain|bulkan|simbahan|bantayog|dambana)/.test(o)) return "landmark";
     if (/(festival|dance|ritual|music|food|cuisine|tradition|pista|sayaw|pagkain|kaugalian)/.test(o)) return "culture";
     return "geography";
@@ -144,7 +141,6 @@ function relationship(category, original, language, word) {
   if (/(job|trabaho|profession)/.test(c)) return "work";
   if (/(transportation|sasakyan)/.test(c)) return /(wheel|engine|wing|tire|handle|seat|tread|propeller|gulong|makina|pakpak|manibela|pedal|katig)/.test(o) ? "transportPart" : "transportUse";
   if (/(clothing|damit)/.test(c)) return "clothingFeature";
-  if (/(brands)/.test(c)) return "brandFeature";
   if (/(technology|programming|social media|internet)/.test(c)) return /(port|circuit|sensor|screen|panel|chip|cable|button|lens|keyboard)/.test(o) ? "component" : "function";
   if (/(house|bahay|bagay|office|bathroom)/.test(c)) return /(handle|cover|blade|bristle|wick|frame|drawer|hinge|hawakan|takip|talim)/.test(o) ? "part" : "use";
   if (/(movie|pelikula|tv show|music|anime)/.test(c)) {
@@ -174,7 +170,6 @@ function explanation(word, hint, original, category, language) {
       ingredient: `Ang “${hint}” ay sangkap na nagbibigay ng natatanging lasa sa ${word}.`,
       preparation: `Ang “${hint}” ay tumutukoy sa “${detail}” na paghahanda ng ${word}.`,
       service: `Ang “${hint}” ay tumutukoy sa “${detail}” na paghahain ng ${word}.`,
-      appearance: `Ang “${hint}” ay naglalarawan sa anyo ng ${word}.`,
       variety: `Ang “${hint}” ay tumutukoy sa “${detail}” na uri ng ${word}.`,
       drink: `Ang “${hint}” ay tumutukoy sa “${detail}” na katangian ng ${word}.`,
       drinkServing: `Ang “${hint}” ay tumutukoy sa paraan ng paghahain ng ${word}.`,
@@ -183,8 +178,6 @@ function explanation(word, hint, original, category, language) {
       landmark: `Ang “${hint}” ay tumutukoy sa “${detail}” na bantog na palatandaan ng ${word}.`,
       culture: `Ang “${hint}” ay tumutukoy sa tradisyong “${detail}” ng ${word}.`,
       geography: `Ang “${hint}” ay tumutukoy sa heograpiyang “${detail}” ng ${word}.`,
-      localTransport: `Ang “${hint}” ay karaniwang sasakyang makikita sa ${word}.`,
-      venueFeature: `Ang “${hint}” ay karaniwang makikita sa ${word}.`,
       equipment: `Ang “${hint}” ay tumutukoy sa “${detail}” na kagamitang ginagamit sa ${word}.`,
       action: `Ang “${hint}” ay tumutukoy sa “${detail}” na kilos sa ${word}.`,
       schoolPerson: `Ang “${hint}” ay bahagi ng tungkulin ng ${word} sa paaralan.`,
@@ -199,7 +192,6 @@ function explanation(word, hint, original, category, language) {
       clothingFeature: `Ang “${hint}” ay tumutukoy sa anyong “${detail}” ng ${word}.`,
       component: `Ang “${hint}” ay tumutukoy sa “${detail}” na bahagi ng ${word}.`,
       function: `Ang “${hint}” ay tumutukoy sa “${detail}” na proseso ng ${word}.`,
-      brandFeature: `Ang “${hint}” ay kinikilalang alok ng ${word}.`,
       part: `Ang “${hint}” ay tumutukoy sa “${detail}” na bahagi ng ${word}.`,
       use: `Ang “${hint}” ay tumutukoy sa “${detail}” na gamit ng ${word}.`,
       role: `Ang “${hint}” ay tumutukoy sa “${detail}” na karakter o papel sa ${word}.`,
@@ -221,7 +213,6 @@ function explanation(word, hint, original, category, language) {
     ingredient: `“${hint}” identifies the ${detail.toLocaleLowerCase()} used in “${word}.”`,
     preparation: `“${hint}” describes the ${detail.toLocaleLowerCase()} preparation of “${word}.”`,
     service: `“${hint}” describes how “${word}” is commonly served.`,
-    appearance: `“${hint}” describes the visible form of “${word}.”`,
     variety: `“${hint}” names the ${detail.toLocaleLowerCase()} variety of “${word}.”`,
     drink: `“${hint}” describes the ${detail.toLocaleLowerCase()} quality of “${word}.”`,
     drinkServing: `“${hint}” describes how “${word}” is normally served.`,
@@ -230,8 +221,6 @@ function explanation(word, hint, original, category, language) {
     landmark: `“${hint}” refers to ${possessive} ${detail.toLocaleLowerCase()} landmark.`,
     culture: `“${hint}” refers to the ${detail.toLocaleLowerCase()} tradition of “${word}.”`,
     geography: `“${hint}” refers to the ${detail.toLocaleLowerCase()} geography of “${word}.”`,
-    localTransport: `“${hint}” is a form of transport commonly seen in “${word}.”`,
-    venueFeature: `“${hint}” is commonly found at a “${word}.”`,
     equipment: `“${hint}” refers to the ${detail.toLocaleLowerCase()} equipment used in “${word}.”`,
     action: `“${hint}” refers to the ${detail.toLocaleLowerCase()} action performed in “${word}.”`,
     schoolPerson: `“${hint}” belongs to the school role of a “${word}.”`,
@@ -246,7 +235,6 @@ function explanation(word, hint, original, category, language) {
     clothingFeature: `“${hint}” describes the ${detail.toLocaleLowerCase()} design of “${word}.”`,
     component: `“${hint}” refers to the ${detail.toLocaleLowerCase()} component of “${word}.”`,
     function: `“${hint}” refers to the ${detail.toLocaleLowerCase()} function of “${word}.”`,
-    brandFeature: `“${hint}” is a recognized offering of “${word}.”`,
     part: `“${hint}” refers to the ${detail.toLocaleLowerCase()} part of “${word}.”`,
     use: `“${hint}” refers to the ${detail.toLocaleLowerCase()} use of “${word}.”`,
     role: `“${hint}” refers to the ${detail.toLocaleLowerCase()} role within “${word}.”`,
