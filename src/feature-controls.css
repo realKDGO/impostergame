@@ -1,5 +1,8 @@
 .players label {
-  grid-template-columns: 30px 25px 1fr 32px;
+  grid-template-columns: 30px 25px minmax(0, 1fr) 32px;
+  width: 100%;
+  column-gap: 4px;
+  align-items: center;
 }
 
 .players .drag-handle {
@@ -10,17 +13,58 @@
   place-items: center;
   cursor: grab;
   touch-action: none;
+  border-radius: 10px;
+  transition: color .18s ease, background .18s ease, transform .18s ease;
+}
+
+.players .drag-handle:hover,
+.players .drag-handle:focus-visible {
+  color: var(--violet);
+  background: color-mix(in srgb, var(--violet) 16%, transparent);
+  outline: none;
 }
 
 .players .drag-handle:active {
   cursor: grabbing;
   color: var(--violet);
+  background: color-mix(in srgb, var(--violet) 24%, transparent);
+  transform: scale(1.08);
 }
 
 .players .drag-handle svg {
   width: 18px;
   height: 18px;
   stroke: currentColor;
+}
+
+.players label > input {
+  width: 100%;
+  min-width: 0;
+}
+
+.players label > button:last-child {
+  grid-column: 4;
+  justify-self: center;
+}
+
+.players label {
+  border: 1px solid transparent;
+  border-radius: 13px;
+  transition: border-color .18s ease, background .18s ease, transform .18s ease;
+}
+
+.players label:has(.drag-handle:active),
+.players label.is-dragging {
+  border-color: color-mix(in srgb, var(--violet) 60%, transparent);
+  background: color-mix(in srgb, var(--violet) 9%, transparent);
+  transform: scale(1.01);
+}
+
+.players label.is-dragging .drag-handle {
+  cursor: grabbing;
+  color: var(--violet);
+  background: color-mix(in srgb, var(--violet) 24%, transparent);
+  transform: scale(1.08);
 }
 
 .reveal-phase {

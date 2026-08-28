@@ -2,7 +2,6 @@ import {useEffect,useMemo,useRef,useState} from "react";
 import {BookOpen,Briefcase,Camera,Car,Castle,ChevronLeft,CloudSun,Code2,Coffee,Eye,Film,Gamepad2,Globe2,GraduationCap,GripVertical,House,Leaf,MapPin,Music2,PawPrint,Play,RefreshCw,Rocket,Settings,Shapes,Shirt,Shuffle,Smartphone,Star,Sun,TreePine,Trophy,Users,WandSparkles,type LucideIcon} from "lucide-react";
 import {categories as dataCategories,forLanguage} from "./word-data";
 import {getSmartHintExplanation} from "./hint-explanations";
-import "./feature-controls.css";
 type Screen="home"|"setup"|"topics"|"reveal"|"firstPlayer"|"imposterReveal"|"clue"|"discussion"|"voting"|"guess"|"result"|"scores"|"settings"|"stats"|"help";
 const APP_SCREENS=new Set<Screen>(["home","setup","topics","reveal","firstPlayer","imposterReveal","clue","discussion","voting","guess","result","scores","settings","stats","help"]);
 type Player={id:string,name:string,points:number,wins:number,correct:number,rounds:number};
@@ -178,6 +177,36 @@ export default function App(){
   document.addEventListener("touchstart",onTouchStart,{passive:true});
   document.addEventListener("touchmove",preventPullRefresh,{passive:false});
   return()=>{removeEventListener("popstate",onPopState);document.removeEventListener("touchstart",onTouchStart);document.removeEventListener("touchmove",preventPullRefresh)};
+ },[]);
+ useEffect(()=>{
+  const getRow=(target:EventTarget|null)=>target instanceof Element?target.closest(".players label"):null;
+  const beginDrag=(event:Event)=>{const handle=event.target instanceof Element?event.target.closest(".drag-handle"):null;if(handle)getRow(handle)?.classList.add("is-dragging")};
+  const moveAcrossRows=(event:PointerEvent|DragEvent)=>{
+   const sourceId=draggedPlayerId.current;
+   if(!sourceId)return;
+   const rows=[...document.querySelectorAll<HTMLElement>(".players label[data-player-id]")].filter(row=>row.dataset.playerId!==sourceId);
+   const beforeRow=rows.find(row=>event.clientY<row.getBoundingClientRect().top+row.getBoundingClientRect().height/2);
+   const beforeId=beforeRow?.dataset.playerId;
+   setPlayers(current=>{
+    const from=current.findIndex(player=>player.id===sourceId);
+    if(from<0)return current;
+    const next=current.filter(player=>player.id!==sourceId);
+    const insertAt=beforeId?next.findIndex(player=>player.id===beforeId):next.length;
+    const safeIndex=insertAt<0?next.length:insertAt;
+    next.splice(safeIndex,0,current[from]);
+    return next.every((player,index)=>player.id===current[index]?.id)?current:next;
+   });
+   if(event.cancelable)event.preventDefault();
+  };
+  const endDrag=()=>{draggedPlayerId.current=null;document.querySelectorAll(".players label.is-dragging").forEach(row=>row.classList.remove("is-dragging"))};
+  document.addEventListener("dragstart",beginDrag);
+  document.addEventListener("dragover",moveAcrossRows);
+  document.addEventListener("dragend",endDrag);
+  document.addEventListener("pointerdown",beginDrag);
+  document.addEventListener("pointermove",moveAcrossRows,{passive:false});
+  document.addEventListener("pointerup",endDrag);
+  document.addEventListener("pointercancel",endDrag);
+  return()=>{document.removeEventListener("dragstart",beginDrag);document.removeEventListener("dragover",moveAcrossRows);document.removeEventListener("dragend",endDrag);document.removeEventListener("pointerdown",beginDrag);document.removeEventListener("pointermove",moveAcrossRows);document.removeEventListener("pointerup",endDrag);document.removeEventListener("pointercancel",endDrag)};
  },[]);
  const go=(s:Screen)=>{if(s!==screenRef.current){screenRef.current=s;history.pushState({...history.state,blendinScreen:s},"",location.href)}setShown(false);setSelectedHint(null);setScreen(s);scrollTo({top:0,left:0,behavior:"instant"})},top=<header className="top"><button aria-label="Back" onClick={()=>go(screen==="topics"?"setup":"home")}>{ico("back")}</button><img src="/brand-logo.png" alt="BLENDIN Logo" className="brand-logo-mark"/><button aria-label="Settings" onClick={()=>go("settings")}>{ico("gear")}</button></header>;
  const start=()=>{let cs=selected.length?gameCategories.filter(c=>selected.includes(c.name)):gameCategories;if(!cs.length)cs=gameCategories;const wanted=mode==="No Mercy"?["Hard","Extreme"]:difficulty==="Easy"?["Easy"]:difficulty==="Normal"?["Normal"]:difficulty==="Hard"?["Hard"]:["Extreme"];let candidates=cs.flatMap(category=>{const matching=category.words.filter(w=>wanted.includes(w.difficulty));return matching.map(entry=>({entry,category}))});if(!candidates.length)candidates=gameCategories.flatMap(category=>category.words.filter(w=>wanted.includes(w.difficulty)).map(entry=>({entry,category})));const seen=new Set<string>();candidates=candidates.filter(({entry})=>{const key=entry.language+":"+entry.word.trim().toLowerCase();if(seen.has(key))return false;seen.add(key);return true});const wordKey=(entry:(typeof candidates)[number]["entry"])=>"word:"+entry.language+":"+entry.word.trim().toLowerCase();let fresh=candidates.filter(({entry})=>!used.includes(wordKey(entry)));if(!fresh.length){const ranked=[...candidates].sort((a,b)=>used.lastIndexOf(wordKey(a.entry))-used.lastIndexOf(wordKey(b.entry)));fresh=ranked.slice(0,Math.max(1,Math.ceil(ranked.length*.2)))}const pick=fresh[crypto.getRandomValues(new Uint32Array(1))[0]%fresh.length],entry=pick.entry,c=pick.category,n=mode==="Double Imposter"?2:mode==="Chaos"?1+crypto.getRandomValues(new Uint32Array(1))[0]%Math.min(3,players.length-2):imposterN,o=[...players],chosenImps=shuffled(players).slice(0,n).map(p=>p.id),tierOrder=entry.difficulty==="Easy"?[0,1,2]:entry.difficulty==="Normal"?[1,0,2]:entry.difficulty==="Hard"?[1,2,0]:[2,1,0],availableOrder=tierOrder.filter(i=>i<entry.hints.length),historyKey=entry.language+":"+entry.word+":"+entry.difficulty,base=(hintHistory[historyKey]||0)%availableOrder.length,hintMap=Object.fromEntries(chosenImps.map((id,i)=>[id,entry.hints[availableOrder[(base+i)%availableOrder.length]]]));setWord(entry.word);setImposterHints(hintMap);setHintHistory(h=>({...h,[historyKey]:(base+Math.max(1,n))%availableOrder.length}));setWordLanguage(entry.language);setTopic(c.name);setUsed(v=>[...v,wordKey(entry)].slice(-2000));setOrder(o);setFirstPlayerId("");setImps(chosenImps);setRi(0);setShown(false);setHasRevealed(false);setPublicReveal(false);setRoundResolved(false);setEscapedRound(false);setWinner("");setCi(0);setVotes({});setVi(0);setGuess("");setTime(0);go("reveal")};
