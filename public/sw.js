@@ -1,4 +1,4 @@
-const CACHE_NAME = "blendin-offline-v1";
+const CACHE_NAME = "blendin-offline-v__APP_VERSION__";
 const APP_SHELL = [
   "/",
   "/index.html",
@@ -24,8 +24,16 @@ self.addEventListener("install", (event) => {
         .map((match) => match[1])
         .filter((path) => path.startsWith("/assets/"));
       await Promise.all(generatedAssets.map((path) => cache.add(path)));
-    }).then(() => self.skipWaiting()),
+    }).then(() => {
+      // Activate immediately only for the first installation. Updates wait
+      // until the user confirms through the in-app update modal.
+      if (!self.registration.active) return self.skipWaiting();
+    }),
   );
+});
+
+self.addEventListener("message", (event) => {
+  if (event.data?.type === "SKIP_WAITING") self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {
