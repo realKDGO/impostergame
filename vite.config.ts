@@ -7,6 +7,6 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 const appVersion=packageJson.version;
-const versionServiceWorker=()=>({name:"blendin-version-service-worker",closeBundle(){const path=resolve("dist/sw.js"),source=readFileSync(path,"utf8");writeFileSync(path,source.replaceAll("__APP_VERSION__",appVersion))}});
+const versionServiceWorker=()=>({name:"blendin-version-service-worker",closeBundle(){const path=resolve("dist/sw.js"),source=readFileSync(path,"utf8");writeFileSync(path,source.replaceAll("__APP_VERSION__",appVersion));writeFileSync(resolve("dist/version.json"),JSON.stringify({version:appVersion}))}});
 
 export default defineConfig({define:{__APP_VERSION__:JSON.stringify(appVersion)},plugins:[react(),versionServiceWorker()]});

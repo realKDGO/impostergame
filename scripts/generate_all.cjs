@@ -1,23 +1,27 @@
+const {categoryRepairs}=require("./category_repairs.cjs");
+const {meaningFor}=require("./word_meanings.cjs");
 const fs = require('fs');
 const path = require('path');
 const { englishCategories } = require('./data_part1.cjs');
 const { englishCategoriesPart2 } = require('./data_part2.cjs');
 const { tagalogCategories } = require('./data_tagalog.cjs');
 
-const allEnglish = { ...englishCategories, ...englishCategoriesPart2 };
+const allEnglish = { ...englishCategories, ...englishCategoriesPart2, ...categoryRepairs };
 const allTagalog = { ...tagalogCategories };
 
 console.log('Total English Categories:', Object.keys(allEnglish).length);
 console.log('Total Tagalog Categories:', Object.keys(allTagalog).length);
 
+for(const [language,collection] of [["English",allEnglish],["Tagalog",allTagalog]])for(const rows of Object.values(collection))for(const row of rows)row[4]=row[4]||meaningFor(row[0],language)||"";
+
 // 1. Build word-data.ts
 let wordDataContent = `export type Language="English"|"Tagalog";
-export type WordEntry={word:string;hints:string[];language:Language;difficulty:"Easy"|"Normal"|"Hard"|"Extreme"};
+export type WordEntry={word:string;meaning?:string;hints:string[];language:Language;difficulty:"Easy"|"Normal"|"Hard"|"Extreme"};
 export type Category={name:string;language:Language;words:WordEntry[]};
 const E="English" as const,T="Tagalog" as const;
 const diff=(i:number):WordEntry["difficulty"]=>i<8?"Easy":i<18?"Normal":i<26?"Hard":"Extreme";
 // Each entry: [word, easyHint, normalHint, hardHint] — all 3 hints required
-const make=(name:string,language:Language,pairs:string[][]):Category=>({name,language,words:pairs.map((x,i)=>({word:x[0],hints:x.slice(1,4),language,difficulty:diff(i)}))});
+const make=(name:string,language:Language,pairs:string[][]):Category=>({name,language,words:pairs.map((x,i)=>({word:x[0],hints:x.slice(1,4),meaning:x[4]||undefined,language,difficulty:(x[5] as WordEntry["difficulty"])||diff(i)}))});
 export const categories:Category[]=[\n`;
 
 for (const [catName, words] of Object.entries(allEnglish)) {

@@ -1,6 +1,6 @@
 {
-  "name": "BLENDIN: Who's the Impostor?",
-  "short_name": "BLENDIN",
+  "name": "BlendIn: Who's the Imposter?",
+  "short_name": "BlendIn: Who's the Imposter?",
   "description": "Pass-the-phone word deduction party game. Find the impostor before they blend in.",
   "start_url": "/",
   "scope": "/",
