@@ -151,7 +151,7 @@ export default function App(){
   };
   let touchStartY=0;
   const onTouchStart=(event:TouchEvent)=>{touchStartY=event.touches[0]?.clientY??0};
-  const preventPullRefresh=(event:TouchEvent)=>{const currentY=event.touches[0]?.clientY??touchStartY;if(scrollY<=0&&currentY>touchStartY&&event.cancelable)event.preventDefault()};
+  const preventPullRefresh=(event:TouchEvent)=>{if(event.target instanceof Element&&event.target.closest(".pwa-modal"))return;const currentY=event.touches[0]?.clientY??touchStartY;if(scrollY<=0&&currentY>touchStartY&&event.cancelable)event.preventDefault()};
   addEventListener("popstate",onPopState);
   document.addEventListener("touchstart",onTouchStart,{passive:true});
   document.addEventListener("touchmove",preventPullRefresh,{passive:false});

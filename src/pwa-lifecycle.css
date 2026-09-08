@@ -13,3 +13,10 @@
 .patch-notes h3{font-size:14px;margin:0 0 8px;color:var(--violet)}
 .patch-notes ul{margin:0;padding-left:19px;color:var(--muted);display:grid;gap:6px}
 .patch-notes li{line-height:1.45;font-size:13px}
+
+.pwa-modal-backdrop{padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));overflow:hidden}
+.pwa-modal{min-height:0;min-width:0;max-height:calc(100vh - 48px);max-height:calc(100dvh - 48px - env(safe-area-inset-top) - env(safe-area-inset-bottom));overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;-webkit-overflow-scrolling:touch;overflow-wrap:anywhere}
+.pwa-modal .patch-heading{font-style:italic}
+.pwa-modal .patch-title{font-size:24px;font-weight:850;line-height:1.25;color:var(--text);margin:0 0 12px}
+.pwa-modal .patch-thanks{font-size:22px;font-weight:750;font-style:italic;text-align:center;margin:12px 0}
+@media(max-width:360px){.pwa-modal{padding:22px 16px 16px}.pwa-modal>h2{font-size:25px}}
