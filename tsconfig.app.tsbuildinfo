@@ -1,1 +1,1 @@
-{"root":["./src/App.tsx","./src/hint-explanations.ts","./src/main.tsx","./src/pwa-lifecycle.tsx","./src/word-data.ts"],"version":"5.9.3"}
+{"root":["./src/App.tsx","./src/direct-meanings.ts","./src/hint-explanations.ts","./src/main.tsx","./src/prevent-zoom.ts","./src/pwa-lifecycle.tsx","./src/undercover-data.ts","./src/undercover-intro.tsx","./src/word-data.ts"],"version":"5.9.3"}

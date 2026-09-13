@@ -45,3 +45,8 @@ Pull-to-refresh is a native Median feature. Median requires it to be disabled in
 - Pages remain scrollable when their content is taller than the screen.
 - Scrollbars are hidden on Android, iOS, and desktop browsers.
 - Private card information is hidden whenever navigation occurs.
+
+## Undercover and zoom controls (1.0.6)
+Undercover uses English word pairs and one hidden player. It follows saved voting and Escape preferences. Voting OFF gives a casual reveal without winners. Jester is unavailable in this mode.
+
+The web app blocks common pinch, double-click and keyboard/wheel zoom gestures and requests a fixed viewport. Keep Median Pinch-to-Zoom OFF and rebuild the APK when changing native settings. Browser-menu zoom and accessibility overrides are controlled by the browser or operating system and cannot be guaranteed blocked by page code.
